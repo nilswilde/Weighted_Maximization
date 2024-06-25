@@ -1,0 +1,292 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Experiment</title>
+    
+    <style>
+    
+    div#wait {
+        position: absolute;
+        text-align: center;
+        padding-top: 15%;
+        top: 1px;
+        right: 1px;
+        width: 99%;
+        height: 68%;
+        border: 0px solid black;
+        background-color: rgba(255,255,255,0.7);
+        display: none;
+    }
+    
+    div#message {
+        position: absolute;
+        text-align: center;
+        padding-top: 15%;
+        top: 1px;
+        right: 1px;
+        width: 99%;
+        height: 68%;
+        border: 0px solid black;
+        background-color: rgba(255,255,255,1);
+        display: block;
+        font-size: 40px;
+    }
+    
+    div#ordinalFeedback {
+        position: absolute;
+        text-align: center;
+        padding-top: 0;
+        top: 1px;
+        right: 1px;
+        width: 99%;
+        height: 99%;
+        border: 0px solid black;
+        background-color: rgba(255,255,255,1);
+        display: none;
+        font-size: 16px;
+    }
+    
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 25px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    .slider:hover {
+      opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      background: #04AA6D;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #04AA6D;
+      cursor: pointer;
+    }
+    
+    .submitButton {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    
+    .syncButton {
+      background-color: gray;
+      border: none;
+      color: white;
+      padding: 7px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 1px 1px;
+      cursor: pointer;
+    }
+    
+    </style>
+    
+    
+  </head>
+  
+<body>
+
+<table style="border:0; margin:auto;">
+    <tr>
+        <td colspan="2">
+            <br />
+            <center><a href="https://iliad.stanford.edu/experiments/drinks" target="_blank">Click Here to Go to the Instructions Page</a></center>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <center><h2 id="questionHeading">Scale Question 1/48</h2></center>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
+            <center><input type="button" value="Restart Videos" onClick="sync()" class="syncButton" /></center><br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:50%; padding-left:15%; padding-right:10px;">
+            <video id="video0" width="100%" autoplay loop muted>
+            <source id="option0" src="video?name=fetch0" type="video/mp4">
+            Your browser does not support the video tag.
+            </video> 
+        </td>
+        <td style="width:50%; padding-left:10px; padding-right:15%;">
+            <video id="video1" width="100%" autoplay loop muted>
+            <source id="option1" src="video?name=fetch1" type="video/mp4">
+            Your browser does not support the video tag.
+            </video> 
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="padding-left:15%; padding-right:15%; position: relative;">
+            <input type="range" min="-1" max="1" value="0" step="0.1" class="slider" id="myRange">
+            <span style="position:absolute; margin-left:15%; margin-right:15%; margin-top:1px;">
+            <span id="myValue"></span>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <br />
+            <center><input type="button" value="Submit" onClick="submit()" class="submitButton" /></center>
+        </td>
+    </tr>
+<table>
+
+<div id="wait"><img src="gif?name=wait" height="60%" /></div>
+<div id="message">Initializing the system, please wait...</div>
+
+<div id="ordinalFeedback">
+    <br />
+    <center><a href="https://iliad.stanford.edu/experiments/drinks" target="_blank">Click Here to Go to the Instructions Page</a></center><br />
+    <center><h2 id="ordinalQuestionHeading">Ordinal Question 1/48</h2></center>
+    <center><input type="button" value="Restart Video" onClick="replayOrdinal()" class="syncButton" /></center><br />
+    <video id="ordinalVideo" width="34%" autoplay loop muted>
+    <source id="ordinalOption" src="video?name=fetch0" type="video/mp4">
+    Your browser does not support the video tag.
+    </video>
+    <br />
+    The displayed trajectory fits my preferences on the task.
+    <center>
+    <input type="radio" name="ordinal" value="0.00"> Strongly Disagree &nbsp&nbsp
+    <input type="radio" name="ordinal" value="0.25"> Disagree &nbsp&nbsp
+    <input type="radio" name="ordinal" id="ordinalDefault" value="0.50" checked> Neutral &nbsp&nbsp
+    <input type="radio" name="ordinal" value="0.75"> Agree &nbsp&nbsp
+    <input type="radio" name="ordinal" value="1.00"> Strongly Agree 
+    </center><br />
+    <center><input type="button" value="Submit" onClick="submitOrdinal()" class="submitButton" /></center>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var myRange = document.querySelector('#myRange');
+    var myValue = document.querySelector('#myValue');
+    var off = 0.69 * window.innerWidth / (parseInt(myRange.max) - parseInt(myRange.min));
+    // the original code uses myRange.offsetWidth instead of 0.69 * window.innerWidth, but it started failing after adding the margins in the fetch env
+    // this new version is a hacky solution
+    var px =  ((myRange.valueAsNumber - parseInt(myRange.min)) * off) - (myValue.offsetParent.offsetWidth / 2);
+
+    myValue.parentElement.style.left = px + 'px';
+    myValue.parentElement.style.top = myRange.offsetHeight + 'px';
+    myValue.innerHTML = myRange.value;
+
+    myRange.oninput = function(){
+        let px = ((myRange.valueAsNumber - parseInt(myRange.min)) * off) - (myValue.offsetWidth / 2);
+        myValue.innerHTML = parseFloat(myRange.value).toFixed(2);
+        myValue.parentElement.style.left = (px - parseFloat(myRange.value)*10) + 'px';
+    };
+</script>
+<script>
+    let params = new URLSearchParams(location.search);
+    var username = params.get("username");
+
+    const socket = io("http://52.33.106.54:8080");
+    //const socket = io("http://localhost:8080");
+    
+    socket.emit("start", {"username": username});
+    
+    function message(str) {
+        document.getElementById("wait").style.display = "none";
+        document.getElementById("message").innerHTML = str;
+        document.getElementById("message").style.display = "block";
+    }
+    
+    function submit() {
+        document.getElementById("wait").style.display = "block";
+        var u = document.getElementById("myRange").value;
+        socket.emit("sendAction", {"username": username, "data": u});
+        console.log("I submitted the following data to the server: " + u);
+      }
+      
+    function submitOrdinal() {        
+        var getSelectedOrdinal = document.querySelector('input[name="ordinal"]:checked');
+        if(getSelectedOrdinal != null) {
+            document.getElementById("wait").style.display = "block";
+            var u = getSelectedOrdinal.value;
+            socket.emit("sendAction", {"username": username, "data": u});
+            console.log("I submitted the following data to the server for the ordinal feedback: " + u);
+            document.getElementById("ordinalFeedback").style.display = "none";
+        }
+    }
+
+    socket.on("newQuery", function(data) {
+        for(var i=0 ; i<2 ; i++) {
+            document.getElementById("option" + i).src = "video?name=" + data["option" + i];
+            document.getElementById("video" + i).load();
+        }
+        console.log("I set the video sources to be: " + data["option0"] + ", " + data["option1"]);
+        var resolution = parseFloat(data["resolution"]);
+        if(Math.pow(resolution - 1.0, 2) < 1e-6) {
+            document.getElementById("questionHeading").innerHTML = "Choice Question " + data["question_id"] + "/48";
+        } else {
+            document.getElementById("questionHeading").innerHTML = "Scale Question " + data["question_id"] + "/48";
+        }
+        document.getElementById("myRange").value = 0.0;
+        document.getElementById("myRange").step = parseFloat(data["resolution"]);
+        document.querySelector('#myRange').oninput();
+        document.getElementById("wait").style.display = "none";
+        document.getElementById("message").style.display = "none";
+    });
+    
+    socket.on("ordinalQuery", function(data) {
+        document.getElementById("ordinalDefault").checked = true;
+        document.getElementById("ordinalQuestionHeading").innerHTML = "Ordinal Question " + data["question_id"] + "/48";
+        document.getElementById("ordinalFeedback").style.display = "block";
+        document.getElementById("ordinalOption").src = "video?name=" + data["option"];
+        document.getElementById("ordinalVideo").load();
+        console.log("I set the ordinal video sources to be: " + data["option"]);
+        document.getElementById("wait").style.display = "none";
+        document.getElementById("message").style.display = "none";
+    });
+    
+    socket.on("experimentOver", function(data) {
+        message("Training is now complete. Please proceed to the final Google form:<br /><a href='https://forms.gle/Eckq8mNP6uAfsRps5'>Click Here</a>")
+    });
+    
+    function sync() {
+        for(var i=0 ; i<2 ; i++) {
+            document.getElementById("video" + i).currentTime = 0;
+            document.getElementById("video" + i).play();
+        }
+    }
+    
+    function replayOrdinal() {
+        document.getElementById("ordinalVideo").currentTime = 0;
+        document.getElementById("ordinalVideo").play();
+    }
+</script>
+
+</body>
+</html>
+
+
