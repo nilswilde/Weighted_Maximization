@@ -303,6 +303,7 @@ class DiskPlanner(Planner):
             return matching
 
         fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+        fig.suptitle('Scalarization Mode: ' + title, fontsize=20)
         all_sols = self.generate_trajectories()  # [0::10]
 
         pareto_optimal_solutions = filter_dominated_samples(all_sols)
@@ -315,7 +316,7 @@ class DiskPlanner(Planner):
 
         pal = plt.cm.plasma(np.linspace(.0, .9, len(pareto_optimal_solutions)))
         ax = axes[0]
-        # ax.set_title('' + title, fontsize=18)
+        ax.set_title("Trajectories", fontsize=18)
         for o in self.obstacles:
             circle1 = plt.Circle(o['pos'], o['r'], color='dimgrey', alpha=0.5)
             ax.add_patch(circle1)
@@ -362,20 +363,21 @@ class DiskPlanner(Planner):
                 else:
                     col = 'black'
                 ax.plot(phi_1[i], phi_2[i], 'D', color=col, label='optimal trajectories')
-        ax.set_xlim([3.1, 5.7])
-        ax.set_ylim([3.4, 10.5])
+        # ax.set_xlim([3.1, 5.7])
+        # ax.set_ylim([3.4, 10.5])
         asp = np.diff(ax.get_xlim())[0] / np.diff(ax.get_ylim())[0]
         ax.set_aspect(asp)
 
         ax.set_xlabel('Trajectory Length', fontsize=16)
         ax.set_ylabel('Closeness', fontsize=16)
-        ax.set_title(title, fontsize=20)
+        ax.set_title("Pareto Front", fontsize=18)
         fig.tight_layout()
         if block:
             plt.show()
 
     def plot_animation(self, samples, title='', block=False):
         fig, ax = plt.subplots(figsize=(8, 8))
+        ax.set_title(title, fontsize=20)
         # plot obstsacles
         for o in self.obstacles:
             circle1 = plt.Circle(o['pos'], o['r'], color='dimgrey', alpha=0.5)

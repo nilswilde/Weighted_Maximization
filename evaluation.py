@@ -30,6 +30,9 @@ def compute_metrics(planner, samples, K, save=True):
 
 
 def compute_dispersion(stats, samples):
+    """
+
+    """
     dispersion = 0
     summed_diff = 0
     unique_features = []

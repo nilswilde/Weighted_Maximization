@@ -1,6 +1,11 @@
 import copy, time
 from Planner import Planner
 import numpy as np
+np.bool = np.bool_
+try:
+    np.distutils.__config__.blas_opt_info = np.distutils.__config__.blas_ilp64_opt_info
+except Exception:
+    pass
 from Driver.simulation_utils import create_env, compute_best, play
 from Driver.demos import get_trajectory_for_weight
 import sys, random
@@ -155,6 +160,7 @@ class Driver(Planner):
     def plot_trajects_and_features(self, trajects, title='', block=True):
         # fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(4, 5))
         fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 4))
+        fig.suptitle('Main title')
         print("plotting", len(trajects), 'sampled solutions')
 
         # create background

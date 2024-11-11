@@ -1,6 +1,10 @@
 # Weighted_Maximization
 Motion planning with cost functions using weighted maximization.
 
+To run a planning example use the main.py. The config.py allows to select from four different planning problems.
+
+
+
 For details please refer to our paper "Scalarizing Multi-Objective Robot Planning Problems using Weighted Maximization"
 ````
 @article{wilde2024scalarizing,
