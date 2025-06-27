@@ -7,14 +7,13 @@ from DubinsPlanner.DiskPlanner import *
 # from Driver.Driver import Driver
 from Lattice_Planner.graph_planner import GraphPlanner, GraphPlannerMinMax
 
-
-
-def get_planner_class(planner_type):
+def get_planner_class(planner_type, load_planner=False):
     scalarization = 'linear'
-    planner = load_planner(planner_type+'_'+scalarization, 'presamples/'+planner_type+'/')
-    print('Planner loaded', planner)
-    if planner:
-        return planner, True
+    if load_planner:
+        planner = load_planner(planner_type+'_'+scalarization, 'presamples/'+planner_type+'/')
+        print('Planner loaded', planner)
+        if planner:
+            return planner, True
     print('generate new planner')
     if planner_type == 'DiskPlanner2D':
         return DiskPlanner(scalarization), False
@@ -25,9 +24,9 @@ def get_planner_class(planner_type):
     elif planner_type == 'Driver':
         return Driver(scalarization), False
 
-def presample(planner_type, K=20):
+def presample(planner_type, K=20, loaded_from_file=False):
     print("Run Presampling")
-    planner_original, loaded_from_file = get_planner_class(planner_type)
+    planner_original, loaded_from_file = get_planner_class(planner_type, loaded_from_file)
 
     planners = {}
     for scalarization in ['linear','chebyshev']:
@@ -62,8 +61,8 @@ if __name__ == '__main__':
         for scalarization in planners.keys():
             planner = planners[scalarization]
             samples = filter_duplicates(planner.sampled_solutions)
-            # planner.plot_trajects_and_features(samples, title=scalarization, block=False)
-            planner.plot_animation(samples, title=scalarization, block=False)
+            planner.plot_trajects_and_features(samples, title=scalarization, block=False)
+            # planner.plot_animation(samples, title=scalarization, block=False)
         plt.show()
 
 

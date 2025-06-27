@@ -320,7 +320,7 @@ class DiskPlanner(Planner):
         for o in self.obstacles:
             circle1 = plt.Circle(o['pos'], o['r'], color='dimgrey', alpha=0.5)
             ax.add_patch(circle1)
-        if samples is None: # if no samples are given, we plot the ground set of solutions
+        if samples is None or samples ==[]: # if no samples are given, we plot the ground set of solutions
             for traj in all_sols:
                 ax.plot([x[0] for x in traj['states']], [x[1] for x in traj['states']], color='lightgrey')
             for i in range(len(pareto_optimal_solutions)):
@@ -344,7 +344,7 @@ class DiskPlanner(Planner):
 
         # plot Pareto front
         ax = axes[1]
-        if samples is None:
+        if samples is None or samples == []:
             # plot ground set of trajectories
             all_sols_plot = all_sols  # [0::10]
             phi_1, phi_2 = [traj['f'][0] for traj in all_sols_plot], [traj['f'][1] for traj in all_sols_plot]

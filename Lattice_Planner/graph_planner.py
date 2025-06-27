@@ -15,26 +15,17 @@ class GraphPlanner(Planner):
 
         self.g = Graph()
         # start and goal for simple map
-        # self.s = self.g.get_closest_vertex((0, 1100))[0]
-        # self.t = self.g.get_closest_vertex((1100, 400))[0]
+        self.s = self.g.get_closest_vertex((0, 1100))[0]
+        self.t = self.g.get_closest_vertex((1100, 400))[0]
 
         self.s = self.g.get_closest_vertex((250, 10))[0]
         self.t = self.g.get_closest_vertex((750, 700))[0]
-        #
-        self.s = self.g.get_closest_vertex((20, 600))[0]
-        self.t = self.g.get_closest_vertex((1140, 600))[0]
+        # #
+        # self.s = self.g.get_closest_vertex((20, 600))[0]
+        # self.t = self.g.get_closest_vertex((1140, 600))[0]
 
     def set_planner_param(self, budget):
         self.g.planning_budget = budget
-    def randomize_goals(self):
-        min_dist = .6*self.g.x_range
-        while True:
-            s = random.choice(self.g.vertices)
-            t = random.choice(self.g.vertices)
-            if get_distance(s,t)>min_dist:
-                self.s = s
-                self.t = t
-                break
 
     # def save_object(self, tag):
     #     print('save planner', self.label, self.scalarization_mode)
