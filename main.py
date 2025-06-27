@@ -8,6 +8,7 @@ from DubinsPlanner.DiskPlanner import *
 from Lattice_Planner.graph_planner import GraphPlanner, GraphPlannerMinMax
 
 
+
 def get_planner_class(planner_type):
     scalarization = 'linear'
     planner = load_planner(planner_type+'_'+scalarization, 'presamples/'+planner_type+'/')
@@ -53,11 +54,11 @@ if __name__ == '__main__':
     np.random.seed(n)
     for _ in range(1):
         print("Run experiment for planner: ", CFG['planner_type'])
-        K = 1000 # number of samples
+        K = 100 # number of samples
         planners, planner_orig = presample(CFG['planner_type'], K)
         samples = {s:planners[s].sampled_solutions for s in planners.keys()}
         metric = compute_metrics(planner_orig, samples, K, save=False)
-        planner_orig.plot_trajects_and_features(None, title='Ground Set', block=False)
+        planner_orig.plot_trajects_and_features([], title='Ground Set', block=False)
         for scalarization in planners.keys():
             planner = planners[scalarization]
             samples = filter_duplicates(planner.sampled_solutions)

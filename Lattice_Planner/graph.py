@@ -21,7 +21,7 @@ def get_distance(vertex, other):
 
 class Graph:
 
-    def __init__(self, img_file='Lattice_Planner/map3.png'):
+    def __init__(self, img_file='Lattice_Planner/map.png'):
         """
 
         :param img_file: a black and white image. white is free space black are static obstacles
@@ -127,7 +127,7 @@ class Graph:
     def compute_edge_features(self, e):
         obst_dist = (self.vertex_obst_dists[e[0]] + self.vertex_obst_dists[e[1]]) / 2
         closeness = np.exp(-.05 * obst_dist)
-        closeness = np.exp(-.005 * obst_dist)
+        # closeness = np.exp(-.005 * obst_dist)
         return [self.edges[e] / 100, closeness * 1000]
 
 

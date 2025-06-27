@@ -7,6 +7,7 @@ import random, copy, pickle
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib import animation
+np.set_printoptions(legacy='1.25')
 
 class GraphPlanner(Planner):
     def __init__(self, scalarization):
@@ -14,12 +15,12 @@ class GraphPlanner(Planner):
 
         self.g = Graph()
         # start and goal for simple map
-        self.s = self.g.get_closest_vertex((0, 1100))[0]
-        self.t = self.g.get_closest_vertex((1100, 400))[0]
+        # self.s = self.g.get_closest_vertex((0, 1100))[0]
+        # self.t = self.g.get_closest_vertex((1100, 400))[0]
 
         self.s = self.g.get_closest_vertex((250, 10))[0]
         self.t = self.g.get_closest_vertex((750, 700))[0]
-
+        #
         self.s = self.g.get_closest_vertex((20, 600))[0]
         self.t = self.g.get_closest_vertex((1140, 600))[0]
 
@@ -53,7 +54,7 @@ class GraphPlanner(Planner):
         :return:
         """
 
-        print('find optimum via graph search', w, self.scalarization_mode)
+        print('find optimum via graph search', w, self.scalarization_mode, ', k=', self.g.planning_budget)
         # w = [w_i+.001 for w_i in w]
         self.g.set_edge_costs(w)
 
@@ -62,10 +63,12 @@ class GraphPlanner(Planner):
         path_pos = self.g.get_path_positions(path)
         _, f = self.g.compute_path_features(path)
         print('new path, w=', w, ', f= ', f, np.dot(w, f))
-        return {'w': w,
+        sol = {'w': w,
                 'f': f,
                 'states': path_pos
                 }
+        # self.plot_trajects_and_features([sol])
+        return sol
 
     def generate_evaluation_samples(self):
         """
@@ -172,7 +175,8 @@ class GraphPlannerMinMax(GraphPlanner):
         super().__init__(scalarization)
 
         self.g = GraphMinMax()
-
-        self.s = self.g.get_closest_vertex((0, 625))[0]
-        self.t = self.g.get_closest_vertex((1140, 600))[0]
+        self.s = self.g.get_closest_vertex((250, 10))[0]
+        self.t = self.g.get_closest_vertex((750, 700))[0]
+        # self.s = self.g.get_closest_vertex((0, 625))[0]
+        # self.t = self.g.get_closest_vertex((1140, 600))[0]
         self.label = 'GraphMinMax'
